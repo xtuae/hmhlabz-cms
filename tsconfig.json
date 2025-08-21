@@ -19,10 +19,6 @@
     "resolveJsonModule": true,
     "sourceMap": true,
     "isolatedModules": true,
-    "typeRoots": [
-      "./node_modules/@types",
-      "./node_modules"
-    ],
     "plugins": [
       {
         "name": "next"
@@ -31,9 +27,6 @@
     "paths": {
       "@payload-config": [
         "./src/payload.config.ts"
-      ],
-      "react": [
-        "./node_modules/@types/react"
       ],
       "@/*": [
         "./src/*"
@@ -50,7 +43,6 @@
     "next-sitemap.config.cjs"
   ],
   "exclude": [
-    "node_modules",
-    "@eslint"
+    "node_modules"
   ]
 }

@@ -1,14 +1,26 @@
 import React from 'react'
+import { getSettings } from '@/utilities/getSettings'
+import { Media as MediaType } from '@/payload-types'
 
-const BeforeLogin: React.FC = () => {
+export default async function BeforeLogin() {
+  const settings = await getSettings()
+  const { logoDark } = settings
+
+  const logoUrl = (logoDark as MediaType)?.url
+
   return (
     <div>
-      <p>
-        <b>Welcome to your dashboard!</b>
-        {' This is where site admins will log in to manage your website.'}
-      </p>
+      {logoUrl && (
+        <img
+          src={logoUrl}
+          alt="Logo"
+          style={{
+            maxHeight: '50px',
+            width: 'auto',
+            marginBottom: '20px',
+          }}
+        />
+      )}
     </div>
   )
 }
-
-export default BeforeLogin

@@ -1,4 +1,35 @@
-import type { CollectionConfig } from 'payload'
+import type { CollectionBeforeChangeHook, CollectionConfig } from 'payload'
+import sharp from 'sharp'
+
+const compressAndConvertToWebP: CollectionBeforeChangeHook = async ({ req, data }) => {
+  if (req.file && req.file.data) {
+    const { file } = req
+    const isImage = file.mimetype.startsWith('image/') && file.mimetype !== 'image/svg+xml'
+
+    if (isImage) {
+      try {
+        const buffer = await sharp(file.data).webp({ quality: 80 }).toBuffer()
+
+        const originalFilename = file.name
+        const newFilename =
+          originalFilename.substring(0, originalFilename.lastIndexOf('.')) + '.webp'
+
+        // Replace the file data on the request object
+        req.file = {
+          ...file,
+          data: buffer,
+          name: newFilename,
+          mimetype: 'image/webp',
+          size: buffer.length,
+        }
+      } catch (error) {
+        console.error('Error processing image:', error)
+      }
+    }
+  }
+
+  return data
+}
 
 import {
   FixedToolbarFeature,
@@ -11,6 +42,9 @@ import { authenticated } from '../access/authenticated'
 
 export const Media: CollectionConfig = {
   slug: 'media',
+  hooks: {
+    beforeChange: [compressAndConvertToWebP],
+  },
   access: {
     create: authenticated,
     delete: authenticated,

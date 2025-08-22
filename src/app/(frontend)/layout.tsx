@@ -12,19 +12,25 @@ import { Providers } from '@/providers'
 import { InitTheme } from '@/providers/Theme/InitTheme'
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
 import { draftMode } from 'next/headers'
+import { getPayload } from 'payload'
+import config from '@payload-config'
+import { Media as MediaType } from '@/payload-types'
 
 import './globals.css'
 import { getServerSideURL } from '@/utilities/getURL'
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const { isEnabled } = await draftMode()
+  const payload = await getPayload({ config })
+  const settings = await payload.findGlobal({ slug: 'settings' })
+  const favicon = settings.favicon as MediaType
 
   return (
     <html className={cn(GeistSans.variable, GeistMono.variable)} lang="en" suppressHydrationWarning>
       <head>
         <InitTheme />
-        <link href="/favicon.ico" rel="icon" sizes="32x32" />
-        <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
+        <link href={favicon?.url || '/favicon.ico'} rel="icon" sizes="32x32" />
+        <link href={favicon?.url || '/favicon.svg'} rel="icon" type="image/svg+xml" />
       </head>
       <body>
         <Providers>

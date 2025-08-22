@@ -46,10 +46,6 @@ export const Users: CollectionConfig = {
           label: 'Editor',
           value: 'editor',
         },
-        {
-          label: 'Neo',
-          value: 'neo',
-        },
       ],
     },
   ],

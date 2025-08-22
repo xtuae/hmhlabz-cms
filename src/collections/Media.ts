@@ -38,7 +38,8 @@ import {
 } from '@payloadcms/richtext-lexical'
 
 import { anyone } from '../access/anyone'
-import { authenticated } from '../access/authenticated'
+import { adminsOrEditors } from '../access/adminsOrEditors'
+import { admins } from '../access/admins'
 
 export const Media: CollectionConfig = {
   slug: 'media',
@@ -46,10 +47,10 @@ export const Media: CollectionConfig = {
     beforeChange: [compressAndConvertToWebP],
   },
   access: {
-    create: authenticated,
-    delete: authenticated,
+    create: adminsOrEditors,
+    delete: admins,
     read: anyone,
-    update: authenticated,
+    update: adminsOrEditors,
   },
   fields: [
     {

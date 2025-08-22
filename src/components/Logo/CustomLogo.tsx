@@ -1,17 +1,18 @@
 import React from 'react'
 import { getSettings } from '@/utilities/getSettings'
 import { Media as MediaType } from '@/payload-types'
+import Image from 'next/image'
 
 export const CustomLogo = async () => {
   const settings = await getSettings()
-  const { logoDark } = settings
-
-  const logoUrl = (logoDark as MediaType)?.url
+  const logo = settings.logoDark as MediaType
 
   return (
-    <img
-      src={logoUrl || ''}
-      alt="Logo"
+    <Image
+      src={logo?.url || ''}
+      alt={logo?.alt || 'Logo'}
+      width={logo?.width || 200}
+      height={logo?.height || 50}
       style={{ maxHeight: '50px', width: 'auto' }}
     />
   )

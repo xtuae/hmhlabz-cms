@@ -429,7 +429,7 @@ export interface User {
   id: number;
   name?: string | null;
   password?: string | null;
-  roles?: ('admin' | 'editor')[] | null;
+  roles?: ('admin' | 'editor' | 'neo')[] | null;
   updatedAt: string;
   createdAt: string;
   email: string;

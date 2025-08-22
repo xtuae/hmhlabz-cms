@@ -8,7 +8,7 @@ export default async function BeforeLogin() {
   const logo = settings.logoDark as MediaType
 
   return (
-    <div>
+    <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
       {logo?.url && (
         <Image
           src={logo.url}
@@ -18,7 +18,6 @@ export default async function BeforeLogin() {
           style={{
             maxHeight: '50px',
             width: 'auto',
-            marginBottom: '20px',
           }}
         />
       )}

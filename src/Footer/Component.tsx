@@ -2,6 +2,7 @@ import { getCachedGlobal } from '@/utilities/getGlobals'
 import Link from 'next/link'
 import React from 'react'
 import { getSettings } from '@/utilities/getSettings'
+import Image from 'next/image'
 
 import type { Footer, Setting, Media as MediaType } from '@/payload-types'
 
@@ -12,8 +13,7 @@ import { Logo } from '@/components/Logo/Logo'
 export async function Footer() {
   const footerData: Footer = await getCachedGlobal('footer', 1)()
   const settingsData: Setting = await getSettings()
-  const { logoDark } = settingsData
-  const darkLogoUrl = (logoDark as MediaType)?.url
+  const logo = settingsData.logoDark as MediaType
 
   const navItems = footerData?.navItems || []
 
@@ -21,10 +21,12 @@ export async function Footer() {
     <footer className="mt-auto border-t border-border bg-black dark:bg-card text-white">
       <div className="container py-8 gap-8 flex flex-col md:flex-row md:justify-between">
         <Link className="flex items-center" href="/">
-          {darkLogoUrl ? (
-            <img
-              src={darkLogoUrl}
-              alt="Logo"
+          {logo?.url ? (
+            <Image
+              src={logo.url}
+              alt={logo.alt || 'Logo'}
+              width={logo.width || 200}
+              height={logo.height || 50}
               style={{ maxHeight: '50px', width: 'auto' }}
             />
           ) : (

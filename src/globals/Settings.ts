@@ -56,5 +56,39 @@ export const Settings: GlobalConfig = {
       relationTo: 'pages',
       required: true,
     },
+    {
+      type: 'tabs',
+      tabs: [
+        {
+          label: 'Custom Code',
+          fields: [
+            {
+              name: 'customCSS',
+              label: 'Custom CSS',
+              type: 'code',
+              admin: {
+                language: 'css',
+              },
+            },
+            {
+              name: 'headScripts',
+              label: 'Scripts at Start of Body',
+              type: 'code',
+              admin: {
+                language: 'html',
+              },
+            },
+            {
+              name: 'bodyScripts',
+              label: 'Scripts at End of Body',
+              type: 'code',
+              admin: {
+                language: 'html',
+              },
+            },
+          ],
+        },
+      ],
+    },
   ],
 }

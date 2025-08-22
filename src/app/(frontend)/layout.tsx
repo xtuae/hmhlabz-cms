@@ -24,6 +24,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const payload = await getPayload({ config })
   const settings = await payload.findGlobal({ slug: 'settings' })
   const favicon = settings.favicon as MediaType
+  const { customCSS, headScripts, bodyScripts } = settings
 
   return (
     <html className={cn(GeistSans.variable, GeistMono.variable)} lang="en" suppressHydrationWarning>
@@ -31,8 +32,10 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <InitTheme />
         <link href={favicon?.url || '/favicon.ico'} rel="icon" sizes="32x32" />
         <link href={favicon?.url || '/favicon.svg'} rel="icon" type="image/svg+xml" />
+        {customCSS && <style>{customCSS}</style>}
       </head>
       <body>
+        {headScripts && <div dangerouslySetInnerHTML={{ __html: headScripts }} />}
         <Providers>
           <AdminBar
             adminBarProps={{
@@ -44,6 +47,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           {children}
           <Footer />
         </Providers>
+        {bodyScripts && <div dangerouslySetInnerHTML={{ __html: bodyScripts }} />}
       </body>
     </html>
   )

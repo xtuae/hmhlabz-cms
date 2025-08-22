@@ -193,7 +193,57 @@ export interface Page {
       | null;
     media?: (number | null) | Media;
   };
-  layout: (CallToActionBlock | ContentBlock | MediaBlock | ArchiveBlock | FormBlock)[];
+  layout: (
+    | CallToActionBlock
+    | ContentBlock
+    | MediaBlock
+    | ArchiveBlock
+    | FormBlock
+    | {
+        backgroundImage: number | Media;
+        content: {
+          root: {
+            type: string;
+            children: {
+              type: string;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        };
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'parallaxSection';
+      }
+    | {
+        content: {
+          root: {
+            type: string;
+            children: {
+              type: string;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        };
+        color?: string | null;
+        viscosity?: number | null;
+        speed?: number | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'liquidContainer';
+      }
+  )[];
   meta?: {
     title?: string | null;
     /**
@@ -1027,6 +1077,24 @@ export interface PagesSelect<T extends boolean = true> {
         mediaBlock?: T | MediaBlockSelect<T>;
         archive?: T | ArchiveBlockSelect<T>;
         formBlock?: T | FormBlockSelect<T>;
+        parallaxSection?:
+          | T
+          | {
+              backgroundImage?: T;
+              content?: T;
+              id?: T;
+              blockName?: T;
+            };
+        liquidContainer?:
+          | T
+          | {
+              content?: T;
+              color?: T;
+              viscosity?: T;
+              speed?: T;
+              id?: T;
+              blockName?: T;
+            };
       };
   meta?:
     | T
@@ -1617,6 +1685,9 @@ export interface Setting {
   logoDark: number | Media;
   mobileLogo: number | Media;
   homepage: number | Page;
+  customCSS?: string | null;
+  headScripts?: string | null;
+  bodyScripts?: string | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -1676,6 +1747,9 @@ export interface SettingsSelect<T extends boolean = true> {
   logoDark?: T;
   mobileLogo?: T;
   homepage?: T;
+  customCSS?: T;
+  headScripts?: T;
+  bodyScripts?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
